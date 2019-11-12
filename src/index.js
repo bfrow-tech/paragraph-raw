@@ -173,6 +173,13 @@ class Paragraph {
     return {
       text: {
         br: true,
+        p: true,
+        ul: true,
+        li: true,
+        ol: true,
+        img: true,
+        p: true,
+        b: true,
       }
     };
   }
