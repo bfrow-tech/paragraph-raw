@@ -16,9 +16,9 @@ require('./index.css').toString();
 /**
  * @typedef {Object} ParagraphData
  * @description Tool's input and output data format
- * @property {String} text — Paragraph's content. Can include HTML tags: <a><b><i>
+ * @property {String} html — Paragraph's content. Can include HTML tags: <a><b><i>
  */
-class Paragraph {
+class ParagraphRaw {
   /**
    * Default placeholder for Paragraph Tool
    *
@@ -50,10 +50,9 @@ class Paragraph {
      * Placeholder for paragraph if it is first Block
      * @type {string}
      */
-    this._placeholder = config.placeholder ? config.placeholder : Paragraph.DEFAULT_PLACEHOLDER;
+    this._placeholder = config.placeholder ? config.placeholder : ParagraphRaw.DEFAULT_PLACEHOLDER;
     this._data = {};
     this._element = this.drawView();
-
     this.data = data;
   }
 
@@ -109,7 +108,7 @@ class Paragraph {
    */
   merge(data) {
     let newData = {
-      text : this.data.text + data.text
+      html : this.data.html + data.html
     };
 
     this.data = newData;
@@ -124,7 +123,7 @@ class Paragraph {
    * @public
    */
   validate(savedData) {
-    if (savedData.text.trim() === '') {
+    if (savedData.html.trim() === '') {
       return false;
     }
 
@@ -139,7 +138,7 @@ class Paragraph {
    */
   save(toolsContent) {
     return {
-      text: toolsContent.innerHTML
+      html: toolsContent.innerHTML
     };
   }
 
@@ -150,7 +149,7 @@ class Paragraph {
    */
   onPaste(event) {
     const data = {
-      text: event.detail.data.innerHTML
+      html: event.detail.data.innerHTML
     };
 
     this.data = data;
@@ -171,7 +170,7 @@ class Paragraph {
    */
   static get sanitize() {
     return {
-      text: {
+      html: {
         br: true,
         p: true,
         ul: true,
@@ -190,9 +189,9 @@ class Paragraph {
    * @private
    */
   get data() {
-    let text = this._element.innerHTML;
+    let html = this._element.innerHTML;
 
-    this._data.text = text;
+    this._data.html = html;
 
     return this._data;
   }
@@ -208,20 +207,8 @@ class Paragraph {
   set data(data) {
     this._data = data || {};
 
-    this._element.innerHTML = this._data.text || '';
-  }
-
-  /**
-   * Used by Editor paste handling API.
-   * Provides configuration to handle P tags.
-   *
-   * @returns {{tags: string[]}}
-   */
-  static get pasteConfig() {
-    return {
-      tags: [ 'P' ]
-    };
+    this._element.innerHTML = this._data.html || '';
   }
 }
 
-module.exports = Paragraph;
+module.exports = ParagraphRaw;
