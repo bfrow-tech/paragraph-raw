@@ -1,6 +1,6 @@
 {
-  "name": "@editorjs/paragraph",
-  "version": "2.6.0",
+  "name": "@bfrow/paragraph-row",
+  "version": "1.0.0",
   "keywords": [
     "codex editor",
     "paragraph",
